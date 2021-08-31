@@ -1,8 +1,7 @@
-// const BASE_URL = 'https://api.hnpwa.com/v0/';
+const BASE_URL = 'https://api.hnpwa.com/v0/';
 
 const fetchNews = (currentPage = 1) => {
-  // return fetch(`${BASE_URL}${currentPage}.json`, {
-  return fetch(`https://api.hnpwa.com/v0/${currentPage}.json`, {
+  return fetch(`${BASE_URL}news/${currentPage}.json`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -19,7 +18,7 @@ const fetchNews = (currentPage = 1) => {
 };
 
 const fetchComments = id => {
-  return fetch(`https://api.hnpwa.com/v0/item/${id}.json`, {
+  return fetch(`${BASE_URL}item/${id}.json`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
