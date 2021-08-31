@@ -1,4 +1,55 @@
-h2 {
-  color: #e779ac;
+.table {
+  width: 100%;
+  border-collapse: collapse;
   text-align: center;
+}
+.caption {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.thead {
+  text-align: center;
+  border-bottom: 2px solid black;
+}
+.thead .tr {
+  display: flex;
+  justify-content: space-around;
+}
+
+.thead button {
+  border: 0;
+  border-radius: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: inherit;
+  padding: 0.5em;
+  margin-bottom: 1px;
+}
+
+.thead button.ascending::after {
+  content: '👇';
+  display: inline-block;
+  margin-left: 1em;
+}
+
+.thead button.descending::after {
+  content: '☝️';
+  display: inline-block;
+  margin-left: 1em;
+}
+tbody a {
+  color: black;
+  font-style: none;
+}
+tbody a {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-bottom: 1px solid #ccc;
+}
+
+tbody a:hover {
+  color: rgb(73, 14, 236);
+  background-color: rgb(34, 206, 169);
 }
