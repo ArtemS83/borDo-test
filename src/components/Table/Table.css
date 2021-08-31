@@ -1,51 +1,51 @@
-.table {
+table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
 }
-.caption {
+caption {
   margin-bottom: 10px;
   font-size: 18px;
   font-weight: 700;
 }
-.thead {
+thead {
   text-align: center;
   border-bottom: 2px solid black;
 }
-.thead .tr {
+thead tr {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
-.thead button {
+thead button {
+  padding: 0.5em;
+  margin-bottom: 1px;
   border: 0;
   border-radius: none;
   font-family: inherit;
   font-weight: 700;
   font-size: inherit;
-  padding: 0.5em;
-  margin-bottom: 1px;
+  cursor: pointer;
 }
 
-.thead button.ascending::after {
+thead button.ascending::after {
   content: '👇';
   display: inline-block;
   margin-left: 1em;
 }
 
-.thead button.descending::after {
+thead button.descending::after {
   content: '☝️';
   display: inline-block;
   margin-left: 1em;
 }
-tbody a {
-  color: black;
-  font-style: none;
-}
+
 tbody a {
   display: flex;
   justify-content: space-between;
   padding: 0.5em;
+  color: black;
+  font-style: none;
   border-bottom: 1px solid #ccc;
 }
 

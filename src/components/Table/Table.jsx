@@ -1,25 +1,92 @@
-import React from 'react';
-import style from './Table.module.css';
+import React, { useState, useMemo, useEffect } from 'react';
+import './Table.css';
 // import newsApi from '../../services/newsApi';
 
+const useSortableData = (items, config = null) => {
+  const [sortConfig, setSortConfig] = useState(config);
+
+  const sortedItems = useMemo(() => {
+    let sortableItems = [...items];
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [items, sortConfig]);
+
+  const requestSort = key => {
+    let direction = 'ascending';
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === 'ascending'
+    ) {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  return { items: sortedItems, requestSort, sortConfig };
+};
+
 function Table({ news }) {
+  const { items, requestSort, sortConfig } = useSortableData(news);
+
+  const getClassNamesFor = name => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+
   return (
-    <table className={style.table}>
-      <caption className={style.caption}>News</caption>
-      <thead className={style.thead}>
-        <tr className={style.tr}>
-          <th className={style.th}>Time</th>
-          <th className={style.th}>Title</th>
-          <th className={style.th}>Domain</th>
+    <table>
+      <caption>News</caption>
+      <thead>
+        <tr>
+          <th>
+            <button
+              type="button"
+              onClick={() => requestSort('time')}
+              className={getClassNamesFor('time')}
+            >
+              Time
+            </button>
+          </th>
+          <th>
+            <button
+              type="button"
+              onClick={() => requestSort('title')}
+              className={getClassNamesFor('title')}
+            >
+              Title
+            </button>
+          </th>
+          <th>
+            <button
+              type="button"
+              onClick={() => requestSort('domain')}
+              className={getClassNamesFor('domain')}
+            >
+              Domain
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
-        {news?.map(item => (
-          <tr key={item.id} className={style.tr}>
+        {items?.map(item => (
+          <tr key={item.id}>
             <a href={item.url} target="_blank">
-              <td className={style.td}>{toISODate(item.time)}</td>
-              <td className={style.td}>{item.title}</td>
-              <td className={style.td}>{item.domain}</td>
+              <td>{toISODate(item.time)}</td>
+              <td>{item.title}</td>
+              <td>{item.domain}</td>
             </a>
           </tr>
         ))}
@@ -41,7 +108,8 @@ function toISODate(milliseconds) {
   h = h < 10 ? '0' + h : h;
   min = min < 10 ? '0' + min : min;
   s = s < 10 ? '0' + s : s;
-  return [y, m, d].join('-') + ' ' + [h, min, s].join(':');
+  // return [y, m, d].join('-') + ' ' + [h, min, s].join(':');
+  return [h, min, s].join(':');
 }
 
 export default Table;
