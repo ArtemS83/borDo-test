@@ -48,3 +48,10 @@ tbody > tr:hover {
   color: rgb(73, 14, 236);
   background-color: rgb(34, 206, 169);
 }
+
+.block-with-text {
+  overflow: hidden;
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

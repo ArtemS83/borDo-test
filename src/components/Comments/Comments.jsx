@@ -18,7 +18,12 @@ const Comments = ({ data }) => {
       {comments?.length > 0 ? (
         <ul>
           {comments?.map(comment => (
-            <li key={comment.id}>{comment.content.replace(/<p>/g, '')}</li>
+            <li
+              key={comment.id}
+              dangerouslySetInnerHTML={{
+                __html: comment.content.replace(/<p>/g, ''),
+              }}
+            />
           ))}
         </ul>
       ) : (

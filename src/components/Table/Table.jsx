@@ -103,7 +103,9 @@ const Table = ({ news }) => {
                 }}
               >
                 <td>{toISODate(item.time)}</td>
-                <td>{item.title}</td>
+                <td>
+                  <span className="block-with-text">{item.title}</span>
+                </td>
                 <td>{item.domain}</td>
               </tr>
             ))}
