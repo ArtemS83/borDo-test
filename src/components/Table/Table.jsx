@@ -1,7 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './Table.css';
 import newsApi from '../../services/newsApi';
 import Comments from '../Comments/Comments.jsx';
+
+const MOBILE_MAX = 460;
 
 const useSortableData = (items, config = null) => {
   const [sortConfig, setSortConfig] = useState(config);
@@ -41,6 +43,20 @@ const Table = ({ news }) => {
   const { items, requestSort, sortConfig } = useSortableData(news);
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [comments, setComments] = useState([]);
+  const [isMobile, setIsMobile] = useState(true);
+
+  const handleResize = () => {
+    setIsMobile(true);
+    const windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth < MOBILE_MAX) {
+      setIsMobile(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const getClassNamesFor = name => {
     if (!sortConfig) {
@@ -65,15 +81,18 @@ const Table = ({ news }) => {
           <caption>News</caption>
           <thead>
             <tr>
-              <th>
-                <button
-                  type="button"
-                  onClick={() => requestSort('time')}
-                  className={getClassNamesFor('time')}
-                >
-                  Time
-                </button>
-              </th>
+              {isMobile && (
+                <th>
+                  <button
+                    type="button"
+                    onClick={() => requestSort('time')}
+                    className={getClassNamesFor('time')}
+                  >
+                    Time
+                  </button>
+                </th>
+              )}
+
               <th>
                 <button
                   type="button"
@@ -83,15 +102,17 @@ const Table = ({ news }) => {
                   Title
                 </button>
               </th>
-              <th>
-                <button
-                  type="button"
-                  onClick={() => requestSort('domain')}
-                  className={getClassNamesFor('domain')}
-                >
-                  Domain
-                </button>
-              </th>
+              {isMobile && (
+                <th>
+                  <button
+                    type="button"
+                    onClick={() => requestSort('domain')}
+                    className={getClassNamesFor('domain')}
+                  >
+                    Domain
+                  </button>
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -102,11 +123,22 @@ const Table = ({ news }) => {
                   hendleComments(item.id);
                 }}
               >
-                <td>{toISODate(item.time)}</td>
+                {isMobile && (
+                  <td>
+                    <span className="block-with-text">
+                      {toISODate(item.time)}
+                    </span>
+                  </td>
+                )}
+
                 <td>
                   <span className="block-with-text">{item.title}</span>
                 </td>
-                <td>{item.domain}</td>
+                {isMobile && (
+                  <td>
+                    <span className="block-with-text"> {item.domain}</span>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

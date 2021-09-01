@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from './components/Table';
 import newsApi from './services/newsApi';
 
-function App() {
+const App = () => {
   const [news, setNews] = useState([]);
   const [loadMore, setLoadMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -45,6 +45,6 @@ function App() {
       )}
     </>
   );
-}
+};
 
 export default App;
