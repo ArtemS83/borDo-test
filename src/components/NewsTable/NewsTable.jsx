@@ -37,7 +37,7 @@ const useSortableData = (items, config = null) => {
   return { items: sortedItems, requestSort, sortConfig };
 };
 
-const NewsTable = ({ news, location }) => {
+const NewsTable = ({ news, location, title = 'News' }) => {
   const { items, requestSort, sortConfig } = useSortableData(news);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -76,7 +76,7 @@ const NewsTable = ({ news, location }) => {
         </button>
       )}
       <table>
-        <caption>News</caption>
+        <caption>{title}</caption>
         <thead>
           <tr>
             {!isMobile && (

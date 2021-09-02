@@ -37,10 +37,10 @@ const NewestPage = () => {
       setLoadMore(true);
     }
   }
-
+  // Newest
   return (
     <>
-      <NewsTable news={news} />
+      <NewsTable news={news} title="Newest" />
       {loadMore && <Loader />}
     </>
   );
