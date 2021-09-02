@@ -11,7 +11,7 @@ const Comments = ({ data, location, history }) => {
 
   return (
     <>
-      <button type="button" onClick={handelGoBack}>
+      <button type="button" onClick={handelGoBack} className="go-back">
         Go back
       </button>
       <h2>Title: {title}</h2>

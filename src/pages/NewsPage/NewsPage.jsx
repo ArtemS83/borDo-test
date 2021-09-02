@@ -30,12 +30,12 @@ const NewsPage = () => {
 
   function handleScroll() {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight
-    )
-      return;
-    setPage(prevPage => prevPage + 1);
-    setLoadMore(true);
+      Math.round(window.scrollY + window.innerHeight) >=
+      Math.round(document.body.scrollHeight)
+    ) {
+      setPage(prevPage => prevPage + 1);
+      setLoadMore(true);
+    }
   }
 
   return (
