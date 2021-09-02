@@ -1,48 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import Table from './components/Table';
-import newsApi from './services/newsApi';
+import React from 'react';
+import { Suspense } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import AppBar from './components/AppBar';
+import NewsPage from './pages/NewsPage';
+import NewestPage from './pages/NewestPage';
+import CommentsPage from './pages/CommentsPage';
+import Loader from './components/Loader';
 
 const App = () => {
-  const [news, setNews] = useState([]);
-  const [loadMore, setLoadMore] = useState(false);
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    newsApi.fetchNews(page).then(data => {
-      setNews([...news, ...data]);
-    });
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (loadMore && page <= 10) {
-      newsApi.fetchNews(page).then(data => {
-        setNews([...news, ...data]);
-      });
-    }
-    setLoadMore(false);
-  }, [loadMore]);
-
-  function handleScroll() {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight
-    )
-      return;
-    setPage(prevPage => prevPage + 1);
-    setLoadMore(true);
-  }
-
   return (
     <>
-      <Table news={news} />
-      {loadMore && (
-        <div style={{ textAlign: 'center', fontSize: '24px' }}>Loding..</div>
-      )}
+      <AppBar />
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <Route path="/" exact component={NewsPage} />
+          <Route path="/news" component={NewsPage} />
+          <Route path="/newest" component={NewestPage} />
+          <Route path="/comments/:newsId" component={CommentsPage} />
+          <Redirect to="/" />
+        </Switch>
+      </Suspense>
     </>
   );
 };
