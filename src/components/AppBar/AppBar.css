@@ -1,0 +1,15 @@
+.nav-list {
+  display: flex;
+  background-color: darkcyan;
+}
+
+.link {
+  color: rgb(239, 243, 239);
+}
+
+.activeLink {
+  color: rgb(233, 74, 74);
+}
+.nav-link:hover {
+  color: rgb(233, 74, 74);
+}

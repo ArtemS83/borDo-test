@@ -23,6 +23,9 @@ thead button {
   font-size: inherit;
   cursor: pointer;
 }
+thead button:hover {
+  background-color: rgb(34, 206, 169);
+}
 
 thead button.ascending::after {
   content: '👇';
@@ -44,6 +47,9 @@ thead button.descending::after {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  background-color: #ccc;
+}
+.timeMobile:hover {
   background-color: rgb(34, 206, 169);
 }
 
@@ -66,10 +72,16 @@ tbody > tr {
   border-bottom: 1px solid #ccc;
   cursor: pointer;
 }
+tbody > tr a {
+  padding: 0.5em;
+  color: black;
+}
 
 tbody > tr:hover {
-  color: rgb(73, 14, 236);
   background-color: rgb(34, 206, 169);
+}
+tbody > tr:hover span {
+  color: rgb(99, 14, 236);
 }
 
 .block-with-text {

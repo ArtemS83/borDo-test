@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import './Comments.css';
 
-const Comments = ({ data }) => {
+const Comments = ({ data, location, history }) => {
   const { title, comments } = data;
+
+  const handelGoBack = () => {
+    history.push(location?.state?.from || '/');
+  };
 
   return (
     <>
-      <button type="button">
-        <a href="/"> Go back</a>
+      <button type="button" onClick={handelGoBack}>
+        Go back
       </button>
       <h2>Title: {title}</h2>
-      <h3>Comments</h3>
 
       {comments?.length > 0 ? (
         <ul>
@@ -30,4 +34,4 @@ const Comments = ({ data }) => {
   );
 };
 
-export default Comments;
+export default withRouter(Comments);
