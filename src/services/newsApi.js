@@ -22,6 +22,7 @@ const fetchComments = id => {
     method: 'GET',
     headers: {
       Accept: 'application/json',
+      mode: 'no-cors',
     },
   })
     .then(response => {
@@ -33,4 +34,21 @@ const fetchComments = id => {
     });
 };
 
-export default { fetchNews, fetchComments };
+const fetchNewest = (currentPage = 1) => {
+  return fetch(`${BASE_URL}newest/${currentPage}.json`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      mode: 'no-cors',
+    },
+  })
+    .then(response => {
+      if (response.ok) return response.json();
+      throw new Error('Error fetching data');
+    })
+    .catch(err => {
+      console.error('Error: ', err);
+    });
+};
+
+export default { fetchNews, fetchComments, fetchNewest };

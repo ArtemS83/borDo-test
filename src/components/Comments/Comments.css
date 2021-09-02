@@ -2,3 +2,11 @@ li {
   padding: 0.8em;
   margin-bottom: 1px;
 }
+
+.go-back {
+  cursor: pointer;
+}
+
+.go-back:hover {
+  background-color: rgb(34, 206, 169);
+}

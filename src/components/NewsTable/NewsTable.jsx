@@ -1,8 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './NewsTable.css';
-
-const MOBILE_MAX = 480;
+import { MOBILE_MAX } from '../../utils/CONSTANTS.js';
 
 const useSortableData = (items, config = null) => {
   const [sortConfig, setSortConfig] = useState(config);
