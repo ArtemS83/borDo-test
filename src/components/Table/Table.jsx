@@ -43,15 +43,16 @@ const Table = ({ news }) => {
   const { items, requestSort, sortConfig } = useSortableData(news);
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [comments, setComments] = useState([]);
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleResize = () => {
-    setIsMobile(true);
     const windowInnerWidth = window.innerWidth;
-    if (windowInnerWidth < MOBILE_MAX) {
-      setIsMobile(false);
-    }
+    windowInnerWidth < MOBILE_MAX ? setIsMobile(true) : setIsMobile(false);
   };
+
+  useEffect(() => {
+    handleResize();
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -65,7 +66,7 @@ const Table = ({ news }) => {
     return sortConfig.key === name ? sortConfig.direction : undefined;
   };
 
-  const hendleComments = id => {
+  const handleComments = id => {
     newsApi.fetchComments(id).then(data => {
       setComments(data);
     });
@@ -77,72 +78,83 @@ const Table = ({ news }) => {
       {commentsLoading ? (
         <Comments data={comments} />
       ) : (
-        <table>
-          <caption>News</caption>
-          <thead>
-            <tr>
-              {isMobile && (
-                <th>
-                  <button
-                    type="button"
-                    onClick={() => requestSort('time')}
-                    className={getClassNamesFor('time')}
-                  >
-                    Time
-                  </button>
-                </th>
-              )}
-
-              <th>
-                <button
-                  type="button"
-                  onClick={() => requestSort('title')}
-                  className={getClassNamesFor('title')}
-                >
-                  Title
-                </button>
-              </th>
-              {isMobile && (
-                <th>
-                  <button
-                    type="button"
-                    onClick={() => requestSort('domain')}
-                    className={getClassNamesFor('domain')}
-                  >
-                    Domain
-                  </button>
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {items?.map(item => (
-              <tr
-                key={item.id}
-                onClick={() => {
-                  hendleComments(item.id);
-                }}
-              >
-                {isMobile && (
-                  <td>
-                    <span className="block-with-text">
-                      {toISODate(item.time)}
-                    </span>
-                  </td>
+        <>
+          {isMobile && (
+            <button
+              type="button"
+              onClick={() => requestSort('time')}
+              className={`${getClassNamesFor('time')} timeMobile`}
+            >
+              time
+            </button>
+          )}
+          <table>
+            <caption>News</caption>
+            <thead>
+              <tr>
+                {!isMobile && (
+                  <th>
+                    <button
+                      type="button"
+                      onClick={() => requestSort('time')}
+                      className={getClassNamesFor('time')}
+                    >
+                      Time
+                    </button>
+                  </th>
                 )}
 
-                <td>
-                  <span className="block-with-text">{item.title}</span>
-                </td>
-                {isMobile && (
-                  <td>
-                    <span className="block-with-text"> {item.domain}</span>
-                  </td>
+                <th>
+                  <button
+                    type="button"
+                    onClick={() => requestSort('title')}
+                    className={getClassNamesFor('title')}
+                  >
+                    Title
+                  </button>
+                </th>
+                {!isMobile && (
+                  <th>
+                    <button
+                      type="button"
+                      onClick={() => requestSort('domain')}
+                      className={getClassNamesFor('domain')}
+                    >
+                      Domain
+                    </button>
+                  </th>
                 )}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items?.map(item => (
+                <tr
+                  key={item.id}
+                  onClick={() => {
+                    handleComments(item.id);
+                  }}
+                >
+                  {!isMobile && (
+                    <td>
+                      <span className="block-with-text">
+                        {toISODate(item.time)}
+                      </span>
+                    </td>
+                  )}
+
+                  <td>
+                    <span className="block-with-text">{item.title}</span>
+                  </td>
+                  {!isMobile && (
+                    <td>
+                      <span className="block-with-text"> {item.domain}</span>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </>
   );

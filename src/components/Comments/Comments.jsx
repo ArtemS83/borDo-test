@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Comments.css';
 
 const Comments = ({ data }) => {
-  const { title, url, comments } = data;
+  const { title, comments } = data;
 
   return (
     <>
@@ -10,9 +10,6 @@ const Comments = ({ data }) => {
         <a href="/"> Go back</a>
       </button>
       <h2>Title: {title}</h2>
-      <a href={url} target="_blank">
-        {url}
-      </a>
       <h3>Comments</h3>
 
       {comments?.length > 0 ? (
@@ -21,7 +18,7 @@ const Comments = ({ data }) => {
             <li
               key={comment.id}
               dangerouslySetInnerHTML={{
-                __html: comment.content.replace(/<p>/g, ''),
+                __html: comment.content,
               }}
             />
           ))}
